@@ -43,33 +43,27 @@ void expander_unselect_all() {
 // set OUT and LOW
 void expander_select(uint8_t pin) {
     const uint8_t mask = 0xff & ~(1 << bit_for_pin(pin));
-    if (pin < 8) {
-        expander_write(EXPANDER_REG_IODIRA, mask);
-        expander_write(EXPANDER_REG_OLATA, mask);
-    } else {
-        expander_write(EXPANDER_REG_IODIRB, mask);
-        expander_write(EXPANDER_REG_OLATB, mask);
-    }
+    expander_write(EXPANDER_REG_IODIRA, !mask);
     wait_us(EXPANDER_PAUSE);
 }
 
 void expander_config() {
-    // set everything to input
-    expander_write(EXPANDER_REG_IODIRA, 0xff);
-    expander_write(EXPANDER_REG_IODIRB, 0x00);
+    // set A to output, B to input
+    expander_write(EXPANDER_REG_IODIRA, 0x00);
+    expander_write(EXPANDER_REG_IODIRB, 0xff);
 
     // turn on pull-ups
-    expander_write(EXPANDER_REG_GPPUA, 0xff);
+    expander_write(EXPANDER_REG_GPPUB, 0xff);
 
     // disable interrupts
     expander_write(EXPANDER_REG_GPINTENA, 0x0);
     expander_write(EXPANDER_REG_GPINTENB, 0x0);
 
-    // reset polarity
-    expander_write(EXPANDER_REG_IPOLA, 0x0);
+    // reset polarity for B so we read 0->1
     expander_write(EXPANDER_REG_IPOLB, 0x0);
 
-    expander_write(EXPANDER_REG_GPIOB,0xFF);
+    // Unselect all A
+    expander_write(EXPANDER_REG_GPIOA,0x00);
 }
 
 uint8_t bit_for_pin(uint8_t pin) {
