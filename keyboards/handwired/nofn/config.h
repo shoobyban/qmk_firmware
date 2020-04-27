@@ -30,18 +30,18 @@
 /* key matrix size */
 #define MATRIX_ROWS 5
 #define MATRIX_COLS 15
-
-/* key matrix pins */
-#define MATRIX_ROW_PINS { F7, F6, F5, F4, F1 }
-#define MATRIX_COL_PINS {  0,0,0,0,0,0,0, F0, C6, D7, D2, D6, C7, D3, B6 }
-
-/* key matrix size */
-#define MATRIX_LEFT_ROWS 5
 #define MATRIX_LEFT_COLS 7
 
 /* key matrix pins */
-#define MATRIX_LEFT_ROW_PINS { GPB0, GPB1, GPB2, GPB3, GPB4 }
-#define MATRIX_LEFT_COL_PINS { GPA0, GPA1, GPA2, GPA3, GPA4, GPA5, GPA6 }
+//                        A0  A1  A2  A3  A4
+#define MATRIX_ROW_PINS { F7, F6, F5, F4, F1 }
+//                                        A5  5   6   RX  12  13  TX  10
+//#define MATRIX_COL_PINS {  0,0,0,0,0,0,0, F0, C6, D7, D2, D6, C7, D3, B6 }
+#define MATRIX_COL_PINS {  0,0,0,0,0,0,0, 0,  0 , 0 , 0 , D6, C7,  0, 0 }
+
+/* key matrix pins */
+#define MATRIX_LEFT_ROW_PINS { GPA4, GPA3, GPA2, GPA1, GPA0 }
+#define MATRIX_LEFT_COL_PINS { GPB0, GPB1, GPB2, GPB3, GPB4, GPB5, GPB6 }
 
 #define UNUSED_PINS
 

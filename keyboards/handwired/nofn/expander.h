@@ -45,10 +45,13 @@ enum EXPANDER_REGISTERS {
     EXPANDER_REG_OLATB = 0x15
 };
 
+char selbuf[20];
+
 void expander_init(void);
 void expander_select(uint8_t pin);
 void expander_unselect(uint8_t pin);
 void expander_unselect_all(void);
+uint8_t expander_read_row(void);
 uint8_t expander_read(uint8_t reg);
 bool is_pin_on(uint8_t val, uint8_t pin);
 

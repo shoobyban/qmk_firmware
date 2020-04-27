@@ -35,15 +35,14 @@ void expander_init(void) {
 
 // set IN and HI
 void expander_unselect_all() {
-    expander_write(EXPANDER_REG_IODIRA, 0xff);
-    expander_write(EXPANDER_REG_OLATA, 0xff);
+    expander_write(EXPANDER_REG_GPIOA,0xFF);
     wait_us(EXPANDER_PAUSE);
 }
 
 // set OUT and LOW
 void expander_select(uint8_t pin) {
-    const uint8_t mask = 0xff & ~(1 << bit_for_pin(pin));
-    expander_write(EXPANDER_REG_IODIRA, !mask);
+    const uint8_t mask = 0xff & (1 << bit_for_pin(pin));
+    expander_write(EXPANDER_REG_GPIOA, ~mask);
     wait_us(EXPANDER_PAUSE);
 }
 
@@ -53,17 +52,15 @@ void expander_config() {
     expander_write(EXPANDER_REG_IODIRB, 0xff);
 
     // turn on pull-ups
+    expander_write(EXPANDER_REG_GPPUA, 0xff);
     expander_write(EXPANDER_REG_GPPUB, 0xff);
 
     // disable interrupts
     expander_write(EXPANDER_REG_GPINTENA, 0x0);
     expander_write(EXPANDER_REG_GPINTENB, 0x0);
 
-    // reset polarity for B so we read 0->1
+    // reverse polarity for B so we read 0->1
     expander_write(EXPANDER_REG_IPOLB, 0x0);
-
-    // Unselect all A
-    expander_write(EXPANDER_REG_GPIOA,0x00);
 }
 
 uint8_t bit_for_pin(uint8_t pin) {
@@ -77,6 +74,10 @@ uint8_t expander_write(uint8_t reg, unsigned char val) {
         xprintf("exp write fail: %d, %d => %d\n", reg, &val,status);
     }
     return 0;
+}
+
+uint8_t expander_read_row() {
+    return ~expander_read(EXPANDER_REG_GPIOB);
 }
 
 uint8_t expander_read(uint8_t reg) {

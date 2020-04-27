@@ -24,7 +24,7 @@ void oled_task_user(void) {
     // oled_write_P(PSTR(">QWERTYUIOP[] +\n"),true);
     // oled_write_P(PSTR("_ASDFGHJKL;\"\\\n"),true);
     // oled_write_P(PSTR("_`ZXCVBNM,./_^\"\\\n"),true);
-    snprintf(buf,sizeof(buf), "Battery: %02ld\n", adafruit_ble_read_battery_voltage()/33);
+    snprintf(buf,sizeof(buf), "B%02ld %2d:%2d\n", adafruit_ble_read_battery_voltage()/33,selbuf[1],selbuf[0]);
     oled_write(buf, false);
     oled_write_P(layer ? PSTR(" FN") : PSTR("     "), false);
     if (layer) {
