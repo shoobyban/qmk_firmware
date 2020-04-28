@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "expander.h"
 #include "quantum.h"
 
+#define RIGHTSIDE
+
 #ifndef CONFIG_H
 #include "config.h" // make editors happy
 #endif
@@ -48,8 +50,9 @@ static matrix_row_t matrix[MATRIX_ROWS];
 static matrix_row_t matrix_debouncing[MATRIX_ROWS];
 
 static const uint8_t row_pins[MATRIX_ROWS] = MATRIX_LEFT_ROW_PINS;
-//static const uint8_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
-//static const uint8_t right_row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
+
+static const uint8_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
+static const uint8_t right_row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
 
 #define print_matrix_header()  print("\nr/c 01234567\n")
 #define print_matrix_row(row)  print_bin_reverse8(matrix_get_row(row))
@@ -76,7 +79,7 @@ void matrix_init_kb(void) {
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) {
-//        setPinInputHigh(right_row_pins[i]);
+        setPinInputHigh(col_pins[i]);
         matrix[i] = 0;
         matrix_debouncing[i] = 0;
     }
@@ -95,32 +98,62 @@ void matrix_scan_kb() {
 bool matrix_scan_custom(matrix_row_t current_matrix[])
 {
     bool changed = false;
+
+    for (uint8_t i = 0; i < MATRIX_COLS; i++) {
+        if (col_pins[i] == 0) {
+            continue;
+        }
+        setPinOutput(col_pins[i]);
+        writePinLow(col_pins[i]);
+        matrix_io_delay();
+
+        // For each col...
+        for (uint8_t j = 0; j < MATRIX_ROWS; j++) {
+            matrix_row_t last_row_value = current_matrix[j];
+            setPinInputHigh(right_row_pins[j]);
+            if (readPin(right_row_pins[j]) == 0) {
+                // Pin LO, set col bit
+                current_matrix[j] |= (MATRIX_ROW_SHIFTER << i);
+            } else {
+                // Pin HI, clear col bit
+                current_matrix[j] &= ~(MATRIX_ROW_SHIFTER << i);
+            }
+            if ((last_row_value != current_matrix[j]) && !(changed)) {
+                changed = true;
+            }
+        }
+        setPinInputHigh(col_pins[i]);
+
+    }
+
     for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
 
         select_row(i);
         wait_us(30);
-        matrix_row_t orig = current_matrix[i];
+        // orig = current_matrix[i];
         uint8_t readval = expander_read_row();
         if (readval != 0) {
             selbuf[0] = readval;
+            selbuf[1] = i;
         }
-        matrix_row_t newval = (orig & ~0x7F) | readval;
+        matrix_row_t newval = (current_matrix[i] & ~0x7F) | readval;
 
 //        uprintf("orig(%d): %d read: %d => %d\n", i, orig, readval, newval);
 
-        if (newval != orig) {
+        if (newval != current_matrix[i]) {
             debouncing = true;
             debouncing_time = timer_read();
         }
 
         if (debouncing && (timer_elapsed(debouncing_time) > DEBOUNCING_DELAY)) {
-            newval = orig;
+            newval = current_matrix[i];
             debouncing = false;
         }
 
-        current_matrix[i] = newval;
-
-        changed |= newval != orig;
+        if (newval != current_matrix[i]) {
+            changed = true;
+            current_matrix[i] = newval;
+        }
     }
 
     return changed;
