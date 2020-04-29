@@ -36,8 +36,9 @@
 //                        A0  A1  A2  A3  A4
 #define MATRIX_ROW_PINS { F7, F6, F5, F4, F1 }
 //                                        A5  5   6   RX  12  13  TX  10
-#define MATRIX_COL_PINS {  0,0,0,0,0,0,0, F0, C6, D7, D2, D6, C7, D3, B6 }
-//#define MATRIX_COL_PINS {  0,0,0,0,0,0,0, 0,  0 , 0 , 0 , D6, C7,  0, 0 }
+//#define MATRIX_COL_PINS {  0,0,0,0,0,0,0, F0, C6, D7, D2, D6, C7, D3, B6 }
+//                                        A5  RX  TX  5   6   13  12  10
+#define MATRIX_COL_PINS {  0,0,0,0,0,0,0, F0, D2, D3, C6, D7, C7, D6, B6 }
 
 /* key matrix pins */
 #define MATRIX_LEFT_ROW_PINS { GPA4, GPA3, GPA2, GPA1, GPA0 }

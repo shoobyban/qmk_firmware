@@ -59,6 +59,9 @@ static const uint8_t right_row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
 #define matrix_bitpop(i)       bitpop(matrix[i])
 #define ROW_SHIFTER ((uint8_t)1)
 
+uint16_t l_time = 0;
+uint8_t upshiftcode = 0;
+
 static void unselect_rows(void);
 static void select_row(uint8_t row);
 
@@ -156,6 +159,15 @@ bool matrix_scan_custom(matrix_row_t current_matrix[])
         }
     }
 
+        if (l_time && (timer_elapsed(l_time) > 200)) {
+            changed = true;
+            l_time = timer_read();
+            if (!upshiftcode) {
+                tap_code(KC_UP);
+            } else {
+                tap_code16(LSFT(upshiftcode));
+            }
+        }
     return changed;
 }
 
@@ -168,4 +180,34 @@ static void select_row(uint8_t row)
 static void unselect_rows(void)
 {
     expander_unselect_all();
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_UP:
+            if (record->event.pressed) {
+                l_time = timer_read(); // init timer
+            } else {
+                if (l_time) { // only if not combo
+                    l_time = 0;
+                    if (!upshiftcode) {
+                        tap_code(KC_UP);
+                    }
+                    upshiftcode = 0;
+                }
+            }
+            return false;
+            break;
+        default:
+            if (record->event.pressed) {
+                if (l_time) {
+                    l_time = timer_read();
+                    upshiftcode = keycode;
+                    tap_code16(LSFT(keycode));
+                    return false;
+                }
+                return true;
+            }
+    }
+    return true;
 }
