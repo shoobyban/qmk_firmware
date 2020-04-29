@@ -60,6 +60,7 @@ static const uint8_t right_row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
 #define ROW_SHIFTER ((uint8_t)1)
 
 uint16_t l_time = 0;
+uint16_t delaymul = 1;
 uint8_t upshiftcode = 0;
 
 static void unselect_rows(void);
@@ -159,7 +160,8 @@ bool matrix_scan_custom(matrix_row_t current_matrix[])
         }
     }
 
-        if (l_time && (timer_elapsed(l_time) > 200)) {
+        if (l_time && (timer_elapsed(l_time) > 50*delaymul)) {
+            delaymul = 1;
             changed = true;
             l_time = timer_read();
             if (!upshiftcode) {
@@ -187,6 +189,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_UP:
             if (record->event.pressed) {
                 l_time = timer_read(); // init timer
+                delaymul = 6;
             } else {
                 if (l_time) { // only if not combo
                     l_time = 0;
@@ -200,6 +203,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         default:
             if (record->event.pressed) {
+                delaymul = 6;
                 if (l_time) {
                     l_time = timer_read();
                     upshiftcode = keycode;
