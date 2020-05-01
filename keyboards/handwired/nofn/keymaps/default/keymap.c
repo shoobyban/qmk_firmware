@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * +------+------+-----+-------+             +-------------------+                    +------------------------------------+
    */
 	[2] = KEYMAP(
-		RESET,   KC_BRMD, KC_BRMU, KC_TRNS, KC_TRNS, BL_DEC,  BL_INC,       KC_MRWD, KC_MPLY, KC_MFFD, KC_TRNS, BL_ON,   BL_OFF,  KC_BSPC,
+		RESET,   KC_BRMD, KC_BRMU, KC_TRNS, KC_TRNS, BL_DEC,  BL_INC,       KC_MRWD, KC_MPLY, KC_MFFD, KC_TRNS, KC_VOLD, KC_VOLU, KC_BSPC,
 		KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
 		KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
 		KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS,

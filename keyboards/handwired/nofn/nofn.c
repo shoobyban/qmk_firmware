@@ -24,8 +24,19 @@ void oled_task_user(void) {
     // oled_write_P(PSTR(">QWERTYUIOP[] +\n"),true);
     // oled_write_P(PSTR("_ASDFGHJKL;\"\\\n"),true);
     // oled_write_P(PSTR("_`ZXCVBNM,./_^\"\\\n"),true);
-    snprintf(buf,sizeof(buf), "B%02ld %2d:%2d\n", adafruit_ble_read_battery_voltage()/33,selbuf[1],selbuf[0]);
-    oled_write(buf, false);
+//    snprintf(buf,sizeof(buf), "B%02ld %2d:%2d\n", adafruit_ble_read_battery_voltage()/33,selbuf[1],selbuf[0]);
+//    oled_write(buf, false);
+switch (layer) {
+    case 0:
+    oled_write_P(PSTR("Esc 1234567890-= Bsp\nTab qwertyuiop[] Ent\nCaps ASDFGHJKL;'\\\nSf `ZXCVBNM,./ Up\nCFFAC ___ C Le Dn Rt\n"), false);
+    break;
+    case 1:
+    oled_write_P(PSTR("Esc F1-F6 F7-F12 Del\nTab qwertyuiop[] Ent\nCaps ASDFGHJKL;'\\\nSf `ZXCVBNM,./ Up\nCFFAC ___ C Le Dn Rt\n"), false);
+    break;
+    case 2:
+    oled_write_P(PSTR("Reset L+-  Media Del\nTab qwertyuiop[] Ent\nCaps ASDFGHJKL;'\\\nSf `ZXCVBNM,./ Up\nCFFAC ___ C Le Dn Rt\n"), false);
+    break;
+}
     oled_write_P(layer ? PSTR(" FN") : PSTR("     "), false);
     if (layer) {
         snprintf(buf,sizeof(buf), "%d ", layer);
