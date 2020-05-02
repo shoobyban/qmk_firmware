@@ -1,6 +1,11 @@
 #include QMK_KEYBOARD_H
 #include "outputselect.h"
 
+enum custom_keycodes {
+    KC_OUTB = SAFE_RANGE,
+    KC_OUTU
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* Qwerty
    * +-----------------------------------------+-----+             +---------------------------------------------------------+
@@ -37,10 +42,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
 	[1] = KEYMAP(
 		KC_TRNS, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,        KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,
-		KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-		KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-		KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_PGUP,
-		KC_TRNS, KC_TRNS, MO(2),   KC_TRNS,                                 KC_TRNS,                            KC_TRNS, KC_TRNS, KC_PGDN, KC_TRNS),
+		KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+		KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+		KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_NO,   KC_NO,            KC_NO,   KC_NO,   KC_PGUP,
+		KC_NO,   KC_NO,   MO(2),   KC_NO,                                   KC_NO,                              KC_NO,   KC_HOME, KC_PGDN, KC_END),
 
   /* COMMAND
    * +-----------------------------------------+-----+             +---------------------------------------------------------+
@@ -56,10 +61,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * +------+------+-----+-------+             +-------------------+                    +------------------------------------+
    */
 	[2] = KEYMAP(
-		RESET,   KC_BRMD, KC_BRMU, KC_TRNS, KC_TRNS, BL_DEC,  BL_INC,       KC_MRWD, KC_MPLY, KC_MFFD, KC_TRNS, KC_VOLD, KC_VOLU, KC_BSPC,
-		KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-		KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-		KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS,
-		KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                                 KC_TRNS, 						    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS)
+		RESET,   KC_BRMD, KC_BRMU, KC_NO,   KC_NO,   BL_DEC,  BL_INC,       KC_MRWD, KC_MPLY, KC_MFFD, KC_NO,   KC_VOLD, KC_VOLU, KC_NO,
+		KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_OUTU, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+		KC_NO,            KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+		KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_OUTB,      KC_NO,   KC_NO,   KC_NO,            KC_NO,   KC_NO,   KC_NO,
+		KC_NO,   KC_NO,   KC_NO,   KC_NO,                                   KC_NO,   						    KC_NO,   KC_NO,   KC_NO,   KC_TRNS)
 
 };

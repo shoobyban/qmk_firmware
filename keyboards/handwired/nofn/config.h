@@ -7,8 +7,8 @@
 #define PRODUCT_ID      0x0221
 #define DEVICE_VER      0x0111
 #define MANUFACTURER    Sam
-#define PRODUCT         NoFN BTLE Keyboard from Sam
-#define DESCRIPTION     Sam BT Keyboard Rev 1
+#define PRODUCT         SamKeyboard v3
+#define DESCRIPTION     Sam Ban Keyboard Rev 3
 
 #define GPA0 0x0
 #define GPA1 0x1

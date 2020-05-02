@@ -31,10 +31,10 @@ DEBUG_ENABLE = no
 OLED_DRIVER_ENABLE = yes
 USE_I2C = yes
 CUSTOM_MATRIX = lite
+BACKLIGHT_CAPS_LOCK = yes
 
 BLUETOOTH = AdafruitBLE
 #BLUETOOTH = no
 
 SRC += expander.c
-SRC += matrix.c
 SRC += i2c_master.c
